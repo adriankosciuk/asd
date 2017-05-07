@@ -1,0 +1,17 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+map:
+    path:      /map
+    defaults:  { _controller: AppBundle:Map:index }
+    requirements:
+        page: '\d+' 
+map_save:
+    path:      /map/save-coordinates
+    defaults:  { _controller: AppBundle:Map:saveCoordinates }
+    methods:  [POST]
+map_delete:
+    path:      /map/delete-coordinates
+    defaults:  { _controller: AppBundle:Map:deleteCoordinates }
+    methods:  [POST]    
+          

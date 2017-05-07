@@ -1,0 +1,190 @@
+{% block body %}
+    <div id="map_canvas"></div>
+    <div id="settings">
+        <input id="txtautocomplete" type="text" name="location">
+        <div id="mark_info"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDHya39RKRnyf75IH1NszeerTBiodUT-I0&v=3&libraries=places"
+            type="text/javascript">
+    </script>
+    <script>
+        var address = "Lublin";
+        var infoWindow = document.getElementById("mark_info");
+        var del = document.getElementById("deleteMark");
+        var currentInfo = infoWindow.innerHTML;
+        
+          //autocompleter
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById("txtautocomplete"));
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                address = autocomplete.getPlace().formatted_address;
+                initialize();
+            });
+            
+        function initialize() {
+            //opcje mapy
+            geocoder = new google.maps.Geocoder();
+            var myOptions = {
+                zoom: 14,
+                disableDefaultUI: true,
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: google.maps.ZoomControlStyle.SMALL,
+                },
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                    myOptions);
+
+         //wyświetlam wszystkie markery z bazy
+            {% for item in markers %}
+                var checkedMarkers{{loop.index}} = new google.maps.Marker({
+                    position: new google.maps.LatLng({{item.lat}}, {{item.lng}})
+                });
+                checkedMarkers{{loop.index}}.saved = true;
+                checkedMarkers{{loop.index}}.id = {{item.id}};
+                checkedMarkers{{loop.index}}.name = "{{item.name}}";
+                map.setCenter(checkedMarkers{{loop.index}}.position);
+                checkedMarkers{{loop.index}}.setMap(map);
+                checkedMarkers{{loop.index}}.addListener('click', function(){
+                    show(checkedMarkers{{loop.index}});
+                });
+            {% endfor %}
+
+                //po kliknieciu na mape 
+                google.maps.event.addListener(map, 'click', function (event) {
+                    placeMarker(event.latLng);
+                });
+
+                //wywoluje funkcje dodajaca marker
+                function placeMarker(location) {
+                    marker = new google.maps.Marker({
+                        position: location,
+                        map: map,
+                    });
+                    show(marker);
+                }
+
+                //pokaz lokalizacje o podanym adresie
+                geocoder.geocode({'address': address}, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        map.setCenter(results[0].geometry.location);
+                    } else {
+                        alert("Geocode was not successful for the following reason: " + status);
+                    }
+                });
+
+            };
+
+                    //funkcja wyświetlająca okienko ze szczegółowymi danymi wybranego markera
+                    function show(marker) {
+                        //dodaje dynamicznie tresc informacji szczegolowych takich jak dlugosc i szerokosc geograficzna
+                        infoWindow.innerHTML = 'Informacje szczegolowe: <br>';
+                        infoWindow.innerHTML = infoWindow.innerHTML + "Szerokosc geograficzna: " + marker.position.lat() + "<br>" + "Długosc geograficzna: " + marker.position.lng() + '<br>'+'Nazwa lokalizacji: '+ '<br>';
+                        infoWindow.style.display = 'block';
+                        
+                        //tworze dynamicznie input z nazwa markera
+                        var inputName = document.createElement('input');
+                        inputName.setAttribute("id", "markerName");
+                        if(marker.name == null){
+                        inputName.value = "Nazwa domyślna";
+                        }else{
+                            inputName.value = marker.name;
+                        }
+                        infoWindow.appendChild(inputName);
+                        
+                        //tworzę przycisk do zapisywania markera w bazie danych
+                        var zapiszMarker = document.createElement('button');
+                        zapiszMarker.innerHTML = 'Zapisz w bazie';
+                        infoWindow.appendChild(zapiszMarker);
+                        
+                        //tworzę dynamicznie przycisk do usuniecia markera z mapy oraz bazy
+                        var usunMarker = document.createElement('button');
+                        usunMarker.innerHTML = 'Usun marker';
+                        infoWindow.appendChild(usunMarker);
+
+                        //po kliknieciu na przycisk usun usuwam konkretny marker
+                        usunMarker.onclick = function () {
+                            //jesli jest zapisany w bazie to go usuwam
+                      if(marker.saved == true){
+                            var http = new XMLHttpRequest();
+                            var url = "map/delete-coordinates";
+                            var params = {"id":marker.id};
+                            var params = JSON.stringify(params);
+                            http.open("POST", url, true);
+                            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+                            http.onreadystatechange = function () {
+                                if (http.readyState == 4 && http.status == 200) {
+                                   // alert('Usunięto marker o nazwie: '+ http.responseText);
+                                }
+                            }
+                            http.send(params);
+                        }
+                            marker.setMap(null);
+                            infoWindow.innerHTML = currentInfo;
+                            infoWindow.style.display = 'none';
+                        };
+
+                        //po kliknieciu w przycisk zapisz zapisuje w bazie danych za pomoca ajax
+                        zapiszMarker.onclick = function () {
+                            usunMarker.disabled= true;
+                            marker.name=inputName.value;
+                            marker.saved = true;
+                            var http = new XMLHttpRequest();
+                            var url = "map/save-coordinates";
+                            var params = {"lat": marker.position.lat(), "lng": marker.position.lng(), "name": inputName.value};
+                            var params = JSON.stringify(params);
+                            http.open("POST", url, true);
+                            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+                            http.onreadystatechange = function () {//Call a function when the state changes.
+                                if (http.readyState == 4 && http.status == 200) {
+                                    //alert('Zapisano marker o nazwie: '+ http.responseText);
+                                    marker.id=http.responseText;
+                                    usunMarker.disabled= false;
+                                }
+                            }
+                            http.send(params);
+                        };
+                        marker.addListener('click', function(){
+                        show(marker);
+                        });
+                    }
+
+            initialize();
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #map_canvas{
+            float: left;
+            width: 70%;
+            height: 80%;
+            border: 1px solid gray;
+        }
+        #txtautocomplete{
+            width: 100%;
+            height: 5%;
+            background-color: white;
+            border: 2px solid gray;
+            z-index: 100;
+        }
+        #settings{
+            width: 25%;
+            margin-left: 5px;
+            height: 100%;
+            float: left;
+        }
+        #mark_info{
+            width: 95%;
+            height: 25%;
+            padding: 5px;
+            border: 2px solid gray;
+            margin: 5px 5px 5px 5px;
+            clear: both;
+            display: none;
+        }
+    </style>
+{% endblock %}
