@@ -1,0 +1,40 @@
+{% extends "AirBlogBundle::base.html.twig" %}
+
+{% block pageTitle %}Kontakt{% endblock %}
+
+{% block contentTitle %}Kontakt{% endblock %}
+
+{% block content %}
+<div class="contact-page left-side">
+
+    {#<div class="notification success">
+        Wiadomosc została <strong>wysłana poprawnie!</strong>
+    </div>#}
+    {% include 'AirBlogBundle:Template:flashMsg.html.twig' %}
+    
+    {% form_theme form 'AirBlogBundle:Form:form_template.html.twig' %}
+    {{ form(form) }}
+    {#
+    <form action="#" method="post">
+        <div class="form-row">
+            <label for="name" class="required">Imię i nazwisko</label>
+            <input type="text" id="name">
+        </div>
+
+        <div class="form-row error">
+            <label for="email" class="required">Adres e-mail</label>
+            <input type="text" id="email">
+            <span>Proszę poprawnie uzupełnić pole</span>
+        </div>
+
+        <div class="form-row error">
+            <label for="message" class="required">Twoja wiadomosc</label>
+            <textarea name="message" id="message"></textarea>
+            <span>Proszę poprawnie uzupełnić pole</span>
+        </div>
+
+        <button class="btn-green submit">Wyślij</button>
+    </form>
+    #}
+</div> <!-- .left -->
+{% endblock %}

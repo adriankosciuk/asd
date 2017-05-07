@@ -1,0 +1,59 @@
+{% extends 'AirAdminBundle::base.html.twig' %}
+
+{% block pageTitle %}
+	{{ parent() }} - Posty
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Użytkownicy
+                </div>
+                <div class="panel-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    {#
+                                    <th>ID</th>
+                                    <th><a class="sortable" href="#">Imie i nazwisko</a></th>
+                                    <th><a class="sortable sort-desc" href="#">Nick</a></th>
+                                    <th><a class="sortable sort-asc" href="#">Email</a></th>
+                                    <th><a class="sortable" href="#">Data rejestracji</a></th>
+                                    #}
+                                    <th>{{ knp_pagination_sortable(pagination, 'Id', 'u.id') }}</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Nick', 'u.username') }}</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Data rejestracji', 'u.registerDate') }}</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in pagination %}
+                                    {% set formPath = path('user_adminUserForm', {'id': user.id}) %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td><a href="{{ formPath }}">{{ user.username }}</a></td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.registerDate|admin_format_date }}</td>
+                                    <td>
+                                        <a href="{{ formPath }}" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {{ knp_pagination_render(pagination, 'AirAdminBundle:Pagination:admin_pagination.html.twig') }}
+                </div> <!-- .panel-body -->
+            </div> <!-- .panel -->
+        </div> <!-- .col-md-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container -->
+{% endblock %}

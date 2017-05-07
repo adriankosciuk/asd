@@ -1,0 +1,19 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: airblog
+    database_user: root
+    database_password: root
+    mailer_transport: smtp
+    mailer_host: mailerHost
+    mailer_user: mailerUser
+    mailer_password: mailerPasswd
+    locale: pl
+    secret: n7iasyd7asd78ayd86andasm7
+    debug_toolbar: true
+    debug_redirects: false
+    use_assetic_controller: true
+    contact_send_to: emailContactTo
+    admin.pagination_limit: 10 

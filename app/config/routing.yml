@@ -1,17 +1,16 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
-map:
-    path:      /map
-    defaults:  { _controller: AppBundle:Map:index }
-    requirements:
-        page: '\d+' 
-map_save:
-    path:      /map/save-coordinates
-    defaults:  { _controller: AppBundle:Map:saveCoordinates }
-    methods:  [POST]
-map_delete:
-    path:      /map/delete-coordinates
-    defaults:  { _controller: AppBundle:Map:deleteCoordinates }
-    methods:  [POST]    
-          
+common_user:
+    resource: "@CommonUserBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+common_user_admin:
+    resource: "@CommonUserBundle/Resources/config/routing-admin.yml"
+    prefix:   /admin-panel/users
+
+air_blog:
+    resource: "@AirBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+air_admin:
+    resource: "@AirAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin-panel
+

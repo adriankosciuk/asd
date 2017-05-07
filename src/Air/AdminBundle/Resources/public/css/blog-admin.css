@@ -1,0 +1,158 @@
+body{
+    background-color: #eee;
+    padding-bottom: 30px;
+}
+
+.navbar{
+    border-radius: 0;
+}
+
+.jumbotron{
+    background-color: #fcfcfc;
+}
+
+.select-block{
+    width: 100%;
+}
+
+.table thead > tr > th, 
+.table tbody > tr > th, 
+.table tfoot > tr > th, 
+.table thead > tr > td, 
+.table tbody > tr > td, 
+.table tfoot > tr > td{
+    vertical-align: middle;
+}
+
+table th.actions{
+    width: 96px;
+    text-align: center;
+}
+
+.form-group.wysiwyg{
+	padding: 15px;
+}
+
+.form-control[type=date]{
+    margin-bottom: 5px;
+}
+
+.help-block.error{
+    color: #b94a48;
+}
+
+
+/********************
+ * Sortable Buttons *
+ ********************/
+.sortable{
+    padding-right: 15px;
+    background-image: url('../img/icon-arrow-ns-dark.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.sortable,
+.sortable:hover{
+    color: #333;
+}
+
+.sortable.desc{
+    background-image: url('../img/icon-arrow-up-dark.png');
+}
+
+.sortable.asc{
+    background-image: url('../img/icon-arrow-down-dark.png');
+}
+
+
+
+/********************************************
+ * Select2 Styles Override - higher buttons *
+ ********************************************/
+.select2-container .select2-choice{
+    height: 34px;
+    line-height: 34px;
+}
+
+.select2-container .select2-choice .select2-arrow b{
+    background-position: 0 4px;
+}
+
+
+
+/*****************************
+ * Filter Search Form Styles *
+ *****************************/
+.filter-search .form-group{
+    margin-right: 10px;
+    width: 200px;
+}
+
+.filter-search .form-group.limit{
+    margin-right: 0;
+}
+
+.filter-search .form-group.limit label{
+    margin-top: 7px;
+}
+
+
+
+/*******************
+ * Categories Tree *
+ *******************/
+.categories-tree ul{
+    list-style: none;
+}
+
+.categories-tree .btn-group{
+    margin-bottom: 6px;
+}
+
+
+
+
+/**************
+ * Login Page *
+ **************/
+body.login {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

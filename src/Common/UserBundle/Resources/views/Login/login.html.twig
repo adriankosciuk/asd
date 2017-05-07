@@ -1,0 +1,90 @@
+{% extends "AirBlogBundle::base.html.twig" %}
+
+{% set hideSidebar = true %}
+{% set hideSearch = true %}
+
+{% block pageTitle %}Zaloguj się lub zarejestruj{% endblock %}
+
+{% block contentTitle %}Logowanie i rejestracja{% endblock %}
+
+{% block content %}
+
+    {% include 'AirBlogBundle:Template:flashMsg.html.twig' %}
+    
+<div class="login-register two-cols">
+    <div class="col col-bdr">
+
+        <h2 class="strong">Logowanie</h2>
+
+        {#<form class="login-form" action="{{ path('_check_path') }}" method="post">
+
+            <div class="form-row">
+                <label for="login" class="required">Login</label>
+                <input id="login" type="text" name="_username" value="{{ userName }}">
+            </div>
+
+            <div class="form-row">
+                <label for="passwd" class="required">Hasło</label>
+                <input id="passwd" type="password" name="_password">
+            </div>
+
+            <label class="checkbox remember">
+                <input type="checkbox" name="_remember_me" selected> Zapamiętaj mnie
+            </label>
+
+            <button class="btn-green submit">Zaloguj</button>
+        </form>#}
+        {% form_theme loginForm 'AirBlogBundle:Form:form_template.html.twig' %}
+        {{ form(loginForm, {'action': path('_check_path')}) }}
+
+        <div class="remember-pass-form">
+            <h2 class="strong">Przypomnij hasło</h2>
+
+            {#<form action="#" method="post">
+
+                <div class="form-row">
+                    <label for="email" class="required">Twój email</label>
+                    <input id="email" type="text">
+                </div>
+
+                <button class="btn-green submit">Przypomnij</button>
+            </form>#}
+            {% form_theme rememberPasswdForm 'AirBlogBundle:Form:form_template.html.twig' %}
+            {{ form(rememberPasswdForm) }}
+        </div>
+
+    </div>
+
+    <div class="col">
+
+        <h2 class="strong">Rejestracja</h2>
+
+        {#<form action="#" method="post">                                
+
+            <div class="form-row">
+                <label for="email" class="required">Email</label>
+                <input type="text" id="email">
+            </div>
+
+            <div class="form-row">
+                <label for="email" class="required">Nick</label>
+                <input type="text" id="email">
+            </div>
+
+            <div class="form-row">
+                <label for="pass" class="required">Hasło</label>
+                <input type="text" id="pass">
+            </div>
+
+            <div class="form-row">
+                <label for="passConf" class="required">Powtorz hasło</label>
+                <input type="text" id="passConf">
+            </div>
+
+            <button class="btn-green submit">Zarejestruj</button>
+        </form>#}
+        {% form_theme registerUserForm 'AirBlogBundle:Form:form_template.html.twig' %}
+        {{ form(registerUserForm) }}
+    </div>
+</div>
+{% endblock %}

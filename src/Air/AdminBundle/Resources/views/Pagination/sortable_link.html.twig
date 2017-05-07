@@ -1,0 +1,5 @@
+{% if options['class'] is defined and 'sortable' not in options['class'] %}
+    {% set options = options|merge({'class': options['class']~' sortable'}) %}
+{% endif %}
+
+<a{% for attr, value in options %} {{ attr }}="{{ value }}"{% endfor %}>{{ title }}</a>

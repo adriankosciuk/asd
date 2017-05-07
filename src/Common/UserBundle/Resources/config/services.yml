@@ -1,0 +1,8 @@
+services:
+    user_mailer:
+        class: Common\UserBundle\Mailer\UserMailer
+        arguments: [@mailer, "test1@eduweb.pl", "AirBlog Admin"]
+        
+    user_manager:
+        class: Common\UserBundle\Manager\UserManager
+        arguments: [@doctrine, @router, @templating, @security.encoder_factory, @user_mailer]

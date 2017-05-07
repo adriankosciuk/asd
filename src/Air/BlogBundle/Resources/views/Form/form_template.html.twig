@@ -1,0 +1,58 @@
+{% block form_start %}
+{% spaceless %}
+    {% set method = method|upper %}
+    {% if method in ["GET", "POST"] %}
+        {% set form_method = method %}
+    {% else %}
+        {% set form_method = "POST" %}
+    {% endif %}
+    <form name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %} novalidate="true">
+    {% if form_method != method %}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {% endif %}
+{% endspaceless %}
+{% endblock form_start %}
+
+{% block form_row %}
+{% spaceless %}
+    <div class="form-row{% if errors|length > 0 %} error{% endif %}">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block button_row %}
+{% spaceless %}
+    {{ form_widget(form) }}
+{% endspaceless %}
+{% endblock button_row %}
+
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+        {% for error in errors %}
+            <span>{{ error.message|trans }}</span>
+        {% endfor %}
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+            
+{% block submit_widget %}
+{% spaceless %}
+    {% set type = type|default('submit') %}
+    {% set attr = attr|merge({'class': 'btn-green submit'}) %}
+    {{ block('button_widget') }}
+{% endspaceless %}
+{% endblock submit_widget %}
+
+{% block checkbox_row %}
+{% spaceless %}
+    <div class="form-row checkbox{% if errors|length > 0 %} error{% endif %}">        
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{ form_widget(form) }} {{ form.vars.label }}
+        </label>
+    </div>
+{% endspaceless %}
+{% endblock %}

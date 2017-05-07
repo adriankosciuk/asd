@@ -1,0 +1,4 @@
+common_user_admin:
+    resource: "@CommonUserBundle/Controller/AdminController.php"
+    type:     annotation
+    prefix:   /

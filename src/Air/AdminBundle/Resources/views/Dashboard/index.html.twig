@@ -1,0 +1,15 @@
+{% extends 'AirAdminBundle::base.html.twig' %}
+
+{% block pageTitle %}
+	{{ parent() }} - Kokpit
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Witaj!</h1>
+            <p>Użyj górnego menu, aby poruszać się po Panelu lub użyj przycisków poniżej, aby przyspieszyć swoją pracę.</p>
+            <p><a href="{{ path('admin_postForm') }}" class="btn btn-primary btn-lg">Dodaj nowy post</a></p>
+        </div>
+    </div>
+{% endblock %}

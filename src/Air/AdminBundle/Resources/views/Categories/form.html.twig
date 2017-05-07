@@ -1,0 +1,30 @@
+{% extends 'AirAdminBundle::base.html.twig' %}
+
+{% set pageTitle = category.id is null ? 'Dodawanie nowej kategorii' : 'Edycja kategorii "%s"'|format(category.name) %}
+
+{% block pageTitle %}
+    {{ pageTitle }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ pageTitle }}
+                </div>
+                <div class="panel-body">
+                    
+                    {{ form_start(form) }}
+                        {{ form_row(form.name) }}
+                        {{ form_row(form.slug) }}
+                        {{ form_row(form.save, {'attr': {'class': 'pull-right'}}) }}
+                    {{ form_end(form) }}
+                    
+                </div>
+            </div> <!-- .panel -->
+        </div> <!-- .col-md-12 -->                 
+    </div> <!-- .row -->
+</div> <!-- .container -->
+{% endblock %}

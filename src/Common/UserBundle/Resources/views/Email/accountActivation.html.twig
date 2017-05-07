@@ -1,0 +1,18 @@
+{% extends "CommonUserBundle:Email:base.html.twig" %}
+
+{% block content %}
+<tr>
+    <td style="width: 25px;"></td>
+    <td style="font-family: 'Trebuchet MS', Helvetica, sans-serif; font-size: 21px; color: #484848;">
+        Aby aktywować konto kliknij w link poniżej:
+    </td>
+    <td style="width: 25px;"></td>
+</tr>
+<tr>
+    <td style="width: 25px;"></td>
+    <td style="font-family: 'Trebuchet MS', Helvetica, sans-serif; font-size: 21px; color: #484848;">
+        <a href="{{ activationUrl }}">{{ activationUrl }}</a>
+    </td>
+    <td style="width: 25px;"></td>
+</tr>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'AirAdminBundle::base.html.twig' %}
+
+{% block pageTitle %}
+    {{ parent() }} - Profil użytkownika "{{ user.username }}"
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Dane podstawowe
+                    </div>
+                    <div class="panel-body">
+                        {{ form_row(form.username) }}
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.roles, {'attr': {'class': 'select-block'}}) }}
+                    </div>
+                </div>
+            </div> <!-- .col-md-8 -->
+
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Akcje
+                            </div>
+                            <div class="panel-body">
+                                <button class="btn btn-success">Zapisz</button>
+                            </div>
+                        </div>
+                    </div>  <!-- .col-md-12 -->
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Dostepność
+                            </div>
+                            <div class="panel-body account-checkbox">
+                                {% set labelWidth = 9 %}
+                                {% set wrapperWidth = 3 %}
+                                {{ form_row(form.accountExpired, {'label_length': labelWidth, 'wrapper_length': wrapperWidth}) }}
+                                {{ form_row(form.accountLocked, {'label_length': labelWidth, 'wrapper_length': wrapperWidth}) }}
+                                {{ form_row(form.credentialsExpired, {'label_length': labelWidth, 'wrapper_length': wrapperWidth}) }}
+                                {{ form_row(form.enabled, {'label_length': labelWidth, 'wrapper_length': wrapperWidth}) }}
+                            </div> <!-- .panel-body -->
+                        </div> <!-- .panel -->
+                    </div> <!-- .col-md-12 -->
+                </div> <!-- .row -->
+            </div> <!-- .col-md-4 -->
+        </div> <!-- .row -->
+        
+        {{ form_rest(form) }}
+    {{ form_end(form) }}
+</div> <!-- .container -->
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'AirAdminBundle::base.html.twig' %}
+
+{% block pageTitle %}
+	{{ parent() }} - Posty
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Wyszukiwanie i filtracja
+                </div>
+                <div class="panel-body">
+                    <form action="{{ path('admin_postsList') }}" method="get" class="form-inline filter-search" role="form">
+                        <div class="form-group">
+                            <input type="text" name="titleLike" value="{{ queryParams['titleLike'] }}" class="form-control" placeholder="Wyszukaj po tytule">
+                        </div>
+
+                        <div class="form-group">
+                            <select name="categoryId" class="select-block" placeholder="Kategoria">
+                                <option></option>
+                                <option {{ -1 == queryParams['categoryId'] ? 'selected="selected"':'' }} value="-1">Brak kategorii</option>
+                                {% for category in categoriesList %}
+                                <option {{ category['id'] == queryParams['categoryId'] ? 'selected="selected"':'' }} value="{{ category['id'] }}">{{ category['name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary">Filtruj</button>
+                        </div>
+
+                        <div class="form-group pull-right limit">
+                            <label for="inputEmail1" class="col-lg-5 control-label">Wyników</label>
+                            <div class="col-lg-7">
+                                <select name="limit" class="select-block" id="limit" placeholder="Pokaż">
+                                    {% for limit in limits %}
+                                        <option {{ currLimit == limit ? 'selected="selected"':'' }} value="{{ limit }}">
+                                            {{ limit }}
+                                        </option>
+                                    {% endfor %}
+                                    {#
+                                    <option value="2">2</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    #}
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        Posty
+                </div>
+                <div class="panel-body">
+                    
+                    <ul class="nav nav-pills pull-left">
+                        {% for key,val in statusesList %}
+                            <li {{ currStatus == val ? 'class="active"':'' }}>
+                                <a href="{{ path('admin_postsList', {'status': val}) }}">
+                                    {{ key }} ({{ statistics[val] }})
+                                </a>
+                            </li>
+                        {% endfor %}
+                        
+                        {#
+                        <li class="active"><a href="#">Wszystkie (9)</a></li>
+                        <li><a href="#">Opublikowane (7)</a></li>
+                        <li><a href="#">Nieopublikowane (2)</a></li>
+                        #}
+                    </ul>
+
+                    <ul class="nav nav-pills pull-right">
+                        <li><a href="{{ path('admin_postForm') }}">Dodaj nowy</a></li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+
+                    <div style="margin-top: 20px;" class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{{ knp_pagination_sortable(pagination, 'ID', 'p.id') }}</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Tytuł', 'p.title') }}</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Kategoria', 'c.id') }}</th>
+                                    {#<th><a class="sortable asc" href="#">ID</a></th>#} 
+                                    {#<th><a class="sortable asc" href="#">Tytuł</a></th>
+                                    <th><a class="sortable desc" href="#">Kategoria</a></th>#}
+                                    <th>Tagi</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Autor', 'a.id') }}</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Data utworzenia', 'p.createDate') }}</th>
+                                    <th>{{ knp_pagination_sortable(pagination, 'Data publikacji', 'p.publishedDate') }}</th>
+                                    {#<th><a class="sortable" href="#">Autor</a></th>
+                                    <th><a class="sortable" href="#">Data utworzenia</a></th>
+                                    <th><a class="sortable" href="#">Data publikacji</a></th>#}
+                                    <th class="actions">Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for post in pagination %}
+                                <tr>
+                                    <td>{{ post.id }}</td>
+                                    <td><a href="{{ path('admin_postForm', {'id': post.id}) }}">{{ post.title }}</a></td>
+                                    <td>
+                                        {% if post.category is null %}
+                                            brak kategorii
+                                        {% else %}
+                                            {{ post.category.name|capitalize }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% for tag in post.tags %}
+                                        <span class="label label-info">{{ tag.name }}</span>
+                                        {% else %}
+                                        Brak tagów
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ post.author.username }}</td>
+                                    <td>
+                                        {{ post.createDate|admin_format_date }}
+                                    </td>
+                                    <td>
+                                        {% if post.publishedDate is null %}
+                                            nie zaplanowano publikacji
+                                        {% else %}
+                                            {{ post.publishedDate|admin_format_date }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="{{ path('admin_postForm', {'id': post.id}) }}" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-edit"></span>
+                                            </a>
+                                            
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                {% set tokenName = csrfProvider.generateCsrfToken(deleteTokenName|format(post.id)) %}
+                                                {% set deleteUrl = path('admin_postDelete', {'id': post.id, 'token': tokenName}) %}
+                                                <a href="{{ deleteUrl }}" class="btn btn-danger" data-confirmAction="">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="8">Brak dopasowanych postów</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {{ knp_pagination_render(pagination, 'AirAdminBundle:Pagination:admin_pagination.html.twig') }}
+                </div> <!-- .panel-body -->
+            </div> <!-- .panel -->
+        </div> <!-- .col-md-12 -->
+    </div> <!-- .row -->
+</div> <!-- .container -->
+{% endblock %}

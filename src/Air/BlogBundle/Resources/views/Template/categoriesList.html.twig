@@ -1,0 +1,14 @@
+<ul class="categories">
+    {% for category in categoriesList %}
+        
+    {% if app.request.get('_route') == 'blog_category' and app.request.get('slug') == category.slug %}
+        <li class="active">
+    {% else %}
+        <li>
+    {% endif %}
+        <a href="{{ path('blog_category', {'slug': category.slug}) }}">
+            {{ category.name }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>

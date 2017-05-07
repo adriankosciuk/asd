@@ -1,0 +1,6 @@
+services:
+    air_blog.twig.extension.blog:
+        class: Air\BlogBundle\Twig\Extension\BlogExtension
+        arguments: ["@doctrine", "@security.context"]
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,13 @@
+{% extends "AirBlogBundle::base.html.twig" %}
+
+{% set hideSidebar = true %}
+
+{% block pageTitle %}Nie znaleziono zasobu{% endblock %}
+
+{% block contentTitle %}Nie znaleziono zasobu{% endblock %}
+
+{% block content %}
+    <div class="error-page">
+        <img src="{{ asset('bundles/airblog/img/error404.png') }}" alt="error404">
+    </div>
+{% endblock %}

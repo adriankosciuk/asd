@@ -1,0 +1,13 @@
+{% extends "AirBlogBundle::base.html.twig" %}
+
+{% set hideSidebar = true %}
+
+{% block pageTitle %}Nieoczekiwany błąd{% endblock %}
+
+{% block contentTitle %}Nieoczekiwany błąd{% endblock %}
+
+{% block content %}
+    <div class="error-page">
+        <img src="{{ asset('bundles/airblog/img/error500.png') }}" alt="Nieoczekiwany błąd">
+    </div>
+{% endblock %}

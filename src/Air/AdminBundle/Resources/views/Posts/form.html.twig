@@ -1,0 +1,94 @@
+{% extends 'AirAdminBundle::base.html.twig' %}
+
+{% set pageTitle = post.id is null ? 'Dodawanie nowego wpisu' : 'Edycja wpisu "%s"'|format(post.title) %}
+
+{% block pageTitle %}
+    {{ pageTitle }}
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+
+        {{ form_start(form) }}
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{ pageTitle }}
+                        </div>
+
+                        <div class="panel-body">
+                            {{ form_row(form.title) }}
+                            {{ form_row(form.slug) }}
+                            {{ form_row(form.content) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Akcje
+                                </div>
+                                <div class="panel-body">
+                                    {{ form_row(form.save) }}
+                                </div>
+                            </div>
+                        </div> <!-- .col-md-12 -->
+
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Miniaturka
+                                </div>
+                                <div class="panel-body">
+                                    {% if post.thumbnail is null %}
+                                        <p>Brak miniaturki</p>
+                                    {% else %}
+                                        <p><img src="{{ asset(post.thumbnail) }}" alt="" class="img-thumbnail"></p>
+                                    {% endif %}
+
+                                    {{ form_widget(form.thumbnailFile) }}
+                                    {{ form_errors(form.thumbnailFile) }}
+                                </div>
+                            </div>
+                        </div> <!-- .col-md-12 -->
+
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Właściwości
+                                </div>
+                                <div class="panel-body">
+                                    {{ form_row(form.publishedDate, {'label_length': 5, 'wrapper_length': 7}) }}
+                                </div>
+                            </div>
+                        </div> <!-- .col-md-12 -->
+
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Taksonomie
+                                </div>
+                                <div class="panel-body">
+
+                                    {{ form_row(form.category, {'label_length': 3, 'wrapper_length': 9, 'attr': {'class': 'select-block'}}) }}
+
+                                    {{ form_row(form.tags, {'label_length': 3, 'wrapper_length': 9, 'attr': {'class': 'select-block'}}) }}
+                                </div>
+                            </div>
+                        </div> <!-- .col-md-12 -->
+
+                    </div>
+                </div>
+
+            </div>
+        {{ form_end(form) }}
+
+    </div> <!-- .container -->
+{% endblock %}

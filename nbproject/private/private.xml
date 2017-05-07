@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/AppBundle.php</file>
+            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Entity/Category.php</file>
             <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/app/config/parameters.yml</file>
+            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Entity/Product.php</file>
+            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Resources/config/doctrine/Product.orm.yml</file>
             <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Controller/MapController.php</file>
-            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Entity/Marker.php</file>
-            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Repository/MarkerRepository.php</file>
-            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Resources/config/doctrine/Marker.orm.yml</file>
-            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Tests/Controller/DefaultControllerTest.php</file>
+            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/app/Resources/views/products/products.html.twig</file>
+            <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/src/AppBundle/Repository/CategoryRepository.php</file>
             <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/app/config/routing.yml</file>
             <file>file:/E:/PROGRAMY/uni/UniServerZ/www/googlemap/app/Resources/views/map/map.html.twig</file>
         </group>

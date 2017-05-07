@@ -1,0 +1,78 @@
+{% extends "AirBlogBundle::base.html.twig" %}
+
+{% set hideSidebar = true %}
+{% set hideSearch = true %}
+
+{% block pageTitle %}Ustawienia konta{% endblock %}
+
+{% block contentTitle %}Ustawienia konta{% endblock %}
+
+{% block content %}
+
+    {% include 'AirBlogBundle:Template:flashMsg.html.twig' %}
+    
+<div class="two-cols account-settings">
+    <div class="col">
+        <h2 class="strong">Zmień dane konta</h2>
+
+        {#<form action="#" method="post">
+            <div class="avatar-row">
+                <img src="img/default-avatar.jpg" alt="">
+                <div class="form-row">
+                    <label for="avatar">Zmień avatar</label>
+                    <input type="file" id="avatar">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="firstname" class="required">Nick</label>
+                <input id="firstname" type="text">
+            </div>
+
+            <button class="btn-green submit">Edytuj dane</button>
+        </form>#}
+        
+        {% form_theme accountSettingsForm 'AirBlogBundle:Form:form_template.html.twig' %}
+        {{ form_start(accountSettingsForm) }}
+        
+            <div class="avatar-row">
+                <img src="{{ asset(user.avatar) }}" alt="">
+                {{ form_row(accountSettingsForm.avatarFile) }}
+            </div>
+            
+            {{ form_rest(accountSettingsForm) }}
+        
+        {{ form_end(accountSettingsForm) }}
+        
+    </div>
+
+    <div class="col col-bdl">
+        <h2 class="strong">Zmiana hasła</h2>
+
+        {#
+        <form action="#" method="post">
+            <div class="form-row">
+                <label for="currPasswd" class="required">Aktualne hasło</label>
+                <input type="text" id="currPasswd">
+            </div>
+
+            <div class="form-row">
+                <label for="newPass" class="required">Nowe hasło</label>
+                <input type="text" id="newPass">
+            </div>
+
+            <div class="form-row">
+                <label for="newPassConf" class="required">Powtórz hasło</label>
+                <input type="text" id="newPassConf">
+            </div>
+
+            <button class="btn-green submit">Zmień hasło</button>
+        </form>
+        #}
+        
+        {% form_theme changePasswdForm 'AirBlogBundle:Form:form_template.html.twig' %}
+        {{ form(changePasswdForm) }}
+        
+    </div>
+</div>
+{% endblock %}

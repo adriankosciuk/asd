@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Panel Administracyjny Blog SF2.">
+        <meta name="author" content="Maciej Zukiewicz (maciek@eduweb.pl)">
+
+        <title>{% spaceless %}{% block pageTitle %}AirBlog Admin Panel{% endblock %}{% endspaceless %}</title>
+
+        <link href="{{ asset('bundles/airadmin/img/favicon.png') }}" rel="shortcut icon">
+    
+        {% block stylesheets %}
+            <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+            {% stylesheets 
+                    'bundles/airadmin/css/bootstrap*'
+                    'bundles/airadmin/css/select*'
+                    'bundles/airadmin/css/blog-admin.css'
+                    filter='cssrewrite,?yui_css'
+            %}
+                <link rel="stylesheet" type="text/css" href="{{ asset_url }}">
+            {% endstylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% javascripts
+                    '@AirAdminBundle/Resources/public/js/vendor/jquery-1.10.2.min.js'
+                    '@AirAdminBundle/Resources/public/js/vendor/*'
+                    '@AirAdminBundle/Resources/public/js/scripts.js'
+                    filter='?yui_js'
+             %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Rozwiń menu</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+                <a class="navbar-brand" href="{{ path('blog_index') }}">Blog</a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                
+                <ul class="nav navbar-nav">
+                    {% if currPage is not defined %}{% set currPage = 'dashboard' %}{% endif %}
+                        
+                    <li{% if currPage == 'dashboard' %} class="active"{% endif %}><a href="{{ path('admin_dashboard') }}">Kokpit</a></li>
+                    <li{% if currPage == 'posts' %} class="active"{% endif %}><a href="{{ path('admin_postsList') }}">Posty</a></li>
+                    
+                    {% if is_granted('ROLE_EDITOR') %}
+                    <li class="dropdown{% if currPage == 'taxonomies' %} active{% endif %}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Taksonomie <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('admin_categoriesList') }}">Kategorie</a></li>
+                            {% endif %}
+                            <li><a href="{{ path('admin_tagsList') }}">Tagi</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li{% if currPage == 'users' %} class="active"{% endif %}><a href="{{ path('user_adminUsersList') }}">Użytkownicy</a></li>
+                    {% endif %}
+                </ul>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    {#
+                    <li><a href="#">{{ app.user.username }}</a></li>
+                    <li><a href="{{ path('EduwebAdmin:Security:logout') }}"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    #}
+                    <li><a href="{{ path('user_accountSettings') }}">{{ app.user.username }}</a></li>
+                    <li><a href="{{ path('_logout') }}"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- alerts container -->
+        {% if app.session.flashBag.has('success') or app.session.flashBag.has('error') %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    {#
+                    {% if app.session.flashBag.has('success') %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>Sukces!</strong> {{ app.session.flashBag.get('success')[0] }}
+                    </div>
+                    {% endif %}
+
+                    {% if app.session.flashBag.has('error') %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>Błąd!</strong> {{ app.session.flashBag.get('error')[0] }}
+                    </div>
+                    {% endif %}
+                    #}
+                        
+                    {% for success in app.session.flashBag.get('success') %}
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>Sukces!</strong> {{ success }}
+                    </div>
+                    {% endfor %}
+                    
+                    {% for error in app.session.flashBag.get('error') %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>Błąd!</strong> {{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!-- /alerts container -->
+
+        {% if form is defined %}
+            {% form_theme form 'AirAdminBundle:Form:form_template.html.twig' %}
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+
+    </body>
+</html>

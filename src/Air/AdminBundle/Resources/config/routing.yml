@@ -1,0 +1,19 @@
+air_admin_dashboard:
+    resource: "@AirAdminBundle/Controller/DashboardController.php"
+    type: annotation
+    prefix: /dashboard
+    
+air_admin_categories:
+    resource: "@AirAdminBundle/Controller/CategoriesController.php"
+    type: annotation
+    prefix: /categories
+    
+air_admin_posts:
+    resource: "@AirAdminBundle/Controller/PostsController.php"
+    type: annotation
+    prefix: /posts
+    
+air_admin_tags:
+    resource: "@AirAdminBundle/Controller/TagsController.php"
+    type: annotation
+    prefix: /tags

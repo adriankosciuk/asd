@@ -1,0 +1,12 @@
+<div class="list-widget">
+    <h3>Najczęściej komentowane</h3>
+    <ul>
+        {% for post in postsList %}
+            <li>
+                <a href="{{ path('blog_post', {'slug': post['slug']}) }}">
+                    {{ '%s (%d)'|format(post['title'], post['commentsCount']) }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
